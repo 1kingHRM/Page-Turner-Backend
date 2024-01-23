@@ -21,6 +21,25 @@ class BookRepository extends BaseRepository {
     let data = await this.mongooseCollection.create(body);
     return data;
   }
+
+  async findAll(query) {
+    if (query) {
+      const regexQuery = new RegExp(query, "i");
+      let data = await this.mongooseCollection
+        .find({
+          $or: [
+            { title: { $regex: regexQuery } },
+            { author: { $regex: regexQuery } },
+          ],
+        })
+        .lean()
+        .exec();
+      return data;
+    }
+
+    let data = await this.mongooseCollection.find().lean().exec();
+    return data;
+  }
 }
 
 module.exports = BookRepository;

@@ -5,7 +5,7 @@ class BaseController {
 
   getAll = (req, res) => {
     this.repository
-      .findAll(req.query.search)
+      .findAll()
       .then((data) => {
         return this.ok(res, data);
       })

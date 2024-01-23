@@ -7,6 +7,17 @@ class BookController extends BaseController {
     super(BookRepository);
   }
 
+  getAll = (req, res) => {
+    this.repository
+      .findAll(req.query.search)
+      .then((data) => {
+        return this.ok(res, data);
+      })
+      .catch((err) => {
+        return this.internalError(err, res);
+      });
+  };
+
   getBooksByGenre = async (req, res) => {
     try {
       let genre = req.params.genre;
