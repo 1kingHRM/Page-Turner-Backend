@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const jwt_secret = process.env.JWT_SECRET;
 const UserRepository = require("../repositories/user.repository");
-const user = require("../models/user.models");
 
 module.exports = (req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -21,4 +20,4 @@ module.exports = (req, res, next) => {
       next();
     });
   });
-};user
+};
