@@ -34,13 +34,19 @@ class BookRepository extends BaseRepository {
             { author: { $regex: regexQuery } },
           ],
         })
+        .populate("genre")
         .lean()
         .exec();
       return data;
-    }
+    } else {
+      let data = await this.mongooseCollection
+        .find()
+        .populate("genre")
+        .lean()
+        .exec();
 
-    let data = await this.mongooseCollection.find().lean().exec();
-    return data;
+      return data;
+    }
   }
 }
 

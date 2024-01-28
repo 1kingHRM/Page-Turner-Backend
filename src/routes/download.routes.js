@@ -5,8 +5,8 @@ const router = express.Router();
 
 const requireLogin = require("../middlewares/requireLogin");
 
-router.get("/", requireLogin, controller.getAll);
-router.post("/", requireLogin, controller.create);
-router.delete("/", requireLogin, controller.deleteAll);
+router.get("/", controller.getAll);
+router.post("/", controller.create);
+router.delete("/delete", requireLogin, controller.deleteAll);
 
 module.exports = router;
