@@ -25,8 +25,6 @@ class BookRepository extends BaseRepository {
   }
 
   async update(body) {
-    console.log(body);
-
     if (!body.file.startsWith("https")) {
       body.file = (await cloudinary.uploader.upload(body.file)).secure_url;
     }
