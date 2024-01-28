@@ -12,5 +12,6 @@ router.get("/genre/:genre", controller.getBooksByGenre);
 router.post("/create", requireLogin, controller.create);
 router.put("/edit", requireLogin, controller.update);
 router.delete("/delete/:id", requireLogin, controller.deleteById);
+router.delete("/delete", requireLogin, controller.deleteAll);
 
 module.exports = router;

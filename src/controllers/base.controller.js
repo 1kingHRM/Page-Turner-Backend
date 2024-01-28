@@ -61,6 +61,16 @@ class BaseController {
       });
   };
 
+  deleteAll = (req, res) => {
+    this.repository
+      .deleteAll()
+      .then((_) => {
+        return this.ok(res);
+      })
+      .catch((err) => {
+        return this.internalError(err, res);
+      });
+  };
 
   ok = (response, data) => {
     if (data) {
@@ -90,16 +100,15 @@ class BaseController {
 
   validationError = (error, response) => {
     response.status(400).send(error);
-  }
+  };
 
   forbiddenError = (error, response) => {
     response.status(403).send(error);
-  }
-  
+  };
 
   validationError = (error, response) => {
     response.status(400).send(error);
-  }
+  };
 }
 
 module.exports = BaseController;

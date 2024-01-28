@@ -43,8 +43,9 @@ class UserController extends BaseController {
       let hashed = await bcrypt.hash(password, 4);
       userDetails.password = hashed;
       let user = await this.repository.create(userDetails);
+      const { email, fullName } = user;
       const token = jwt.sign({ _id: user._id }, jwt_secret);
-      this.ok(res, { token, user: user });
+      this.ok(res, { token, user: {email: email, fullName: fullName} });
     }
   };
 }

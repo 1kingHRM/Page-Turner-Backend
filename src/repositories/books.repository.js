@@ -2,7 +2,7 @@ const BaseRepository = require("./base.repository");
 const book = require("../models/book.models");
 const { cloudinary } = require("../controllers/cloudinary");
 
-
+const GenreRepository = require("./genre.repository");
 
 class BookRepository extends BaseRepository {
   constructor() {
@@ -11,12 +11,14 @@ class BookRepository extends BaseRepository {
 
   async getBooksByGenre(id) {
     let books = await this.mongooseCollection.find({
-      genres: { $in: String(id) },
+      genre: String(id),
     });
     return books;
   }
 
   async create(body) {
+    let genre = await new GenreRepository().getGenreByName(body.genre);
+    body.genre = new String(genre._id);
     body.file = (await cloudinary.uploader.upload(body.file)).secure_url;
     let data = await this.mongooseCollection.create(body);
     return data;
