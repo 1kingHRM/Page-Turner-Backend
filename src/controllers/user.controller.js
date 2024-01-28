@@ -16,7 +16,7 @@ class UserController extends BaseController {
     const { email, password } = req.body;
     let user = await this.repository.getUser(email);
     if (!user) {
-      this.validationError({error: "There is no user with this email"}, res);
+      this.validationError({ error: "There is no user with this email" }, res);
     } else {
       bcrypt.compare(password, user.password).then(async (doMatch) => {
         if (doMatch) {
@@ -27,7 +27,7 @@ class UserController extends BaseController {
             user: { email: email, fullName: fullName },
           });
         } else {
-          this.forbiddenError({error: "Wrong Password"}, res);
+          this.forbiddenError({ error: "Wrong Password" }, res);
         }
       });
     }
@@ -38,14 +38,17 @@ class UserController extends BaseController {
     const { email, password } = req.body;
     let user = await this.repository.getUser(email);
     if (user) {
-      this.forbiddenError({error: "This email is attached to an account"}, res);
+      this.forbiddenError(
+        { error: "This email is attached to an account" },
+        res
+      );
     } else {
       let hashed = await bcrypt.hash(password, 4);
       userDetails.password = hashed;
       let user = await this.repository.create(userDetails);
-      const { email, fullName } = user;
+      const { email } = user;
       const token = jwt.sign({ _id: user._id }, jwt_secret);
-      this.ok(res, { token, user: {email: email, fullName: fullName} });
+      this.ok(res, { token, user: { email: email } });
     }
   };
 }
