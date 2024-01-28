@@ -24,6 +24,14 @@ class BookRepository extends BaseRepository {
     return data;
   }
 
+  async update(body) {
+    if (!body.file.startsWith("https")) {
+      body.file = (await cloudinary.uploader.upload(body.file)).secure_url;
+    }
+    let data = await this.mongooseCollection.findByIdAndUpdate(body._id, body);
+    return data;
+  }
+
   async findAll(query) {
     if (query) {
       const regexQuery = new RegExp(query, "i");
